@@ -1,0 +1,317 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  color-scheme: light dark;
+  --bg: #f4f4f1;
+  --surface: #ffffff;
+  --text: #1c1c1e;
+  --muted: #6b6b70;
+  --border: #e2e2dd;
+  --accent: #2f62e8;
+  --accent-hover: #2552c9;
+  --on-accent: #ffffff;
+  --danger: #cf3a30;
+  --radius: 14px;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 4px 16px rgb(0 0 0 / 0.04);
+  --ring: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+  --font: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard",
+    "Malgun Gothic", "Segoe UI", Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111113;
+    --surface: #1b1b1e;
+    --text: #ececef;
+    --muted: #9b9ba1;
+    --border: #2b2b2f;
+    --accent: #7b9bff;
+    --accent-hover: #93adff;
+    --on-accent: #0d0f17;
+    --danger: #ff7a70;
+    --shadow: none;
+  }
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 레이아웃 */
+.app {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 56px 16px 80px;
+}
+
+.app__header {
+  margin-bottom: 24px;
+}
+
+.app__header h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.app__date {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* 입력 폼 */
+.new-todo {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.new-todo input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.new-todo input::placeholder {
+  color: var(--muted);
+}
+
+.new-todo input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--ring);
+}
+
+.new-todo button {
+  flex: none;
+  padding: 0 20px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.new-todo button:hover {
+  background: var(--accent-hover);
+}
+
+/* 필터 */
+.filters {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.filters a {
+  padding: 6px 12px;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.filters a:hover {
+  color: var(--text);
+  background: var(--surface);
+}
+
+.filters a[aria-current="page"] {
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+/* 목록 */
+.todo-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.todo-list:empty {
+  display: none;
+}
+
+.todo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 8px 8px 16px;
+}
+
+.todo + .todo {
+  border-top: 1px solid var(--border);
+}
+
+.todo__toggle {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.todo__title {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.todo.is-completed .todo__title {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.todo__actions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.todo:hover .todo__actions,
+.todo:has(:focus-visible) .todo__actions {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .todo__actions {
+    opacity: 1;
+  }
+}
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: color-mix(in srgb, var(--text) 7%, transparent);
+  color: var(--text);
+}
+
+.icon-button[data-role="remove"]:hover {
+  color: var(--danger);
+}
+
+/* 수정 모드: 입력창 글자가 제목 위치(16 + 20 + 12 = 48px)에 맞도록 정렬 */
+.todo.is-editing {
+  padding-left: 36px;
+}
+
+.todo__edit {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 11px;
+  background: var(--bg);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+/* 빈 상태 */
+.empty {
+  margin: 0;
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+/* 하단 */
+.app__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 0 4px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.text-button {
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.text-button:hover {
+  color: var(--danger);
+}
+
+@media (max-width: 480px) {
+  .app {
+    padding-top: 32px;
+  }
+
+  .app__header h1 {
+    font-size: 26px;
+  }
+}
